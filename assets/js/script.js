@@ -55,7 +55,7 @@ function chartInit() {
     timeEl.on('click', onTimeClick);
     let eventEl = $('<input>').addClass('description col-8');
     eventEl.attr('id', hourArr[i]);
-    let saveEl = $('<div>').addClass('saveBtn col-1');
+    let saveEl = $('<button>').addClass('saveBtn col-1 btn btn-primary');
 
     if (hourArr[i] < currentHour) {
       eventEl.addClass('past');
