@@ -41,9 +41,28 @@ let hourArr = [
 ];
 
 // function Declaration
+
+// input value focus when hour clicked
 function onTimeClick(e) {
   let element = e.target;
   element.nextSibling.focus();
+}
+
+// on click save to local storage
+function onClickSave(e) {
+  let element = e.target;
+  let inputSelector = e.target.previousSibling;
+  let inputSelectorID = inputSelector.getAttribute('id');
+  console.log(inputSelectorID);
+  let inputContent = element.previousSibling.value;
+  console.log(inputContent);
+
+  localStorage.setItem(inputSelectorID, inputContent);
+  // var inputElValue = element.previousSibling.val;
+  // localStorage.setItem(
+  //   inputEl.previousSibling.val,
+  //   JSON.stringify(inputElValue)
+  // );
 }
 
 function chartInit() {
@@ -52,11 +71,18 @@ function chartInit() {
     let timeEl = $('<div>').addClass('hour col-1');
     timeEl.attr('id', timeArr[i]);
     timeEl.text(timeArr[i]);
+    //
+    //
+    // focus on input range when clicking the specified hour
     timeEl.on('click', onTimeClick);
+
     let eventEl = $('<input>').addClass('description col-8');
     eventEl.attr('id', hourArr[i]);
     let saveEl = $('<button>').addClass('saveBtn col-1 btn btn-primary');
+    saveEl.on('click', onClickSave);
 
+    //
+    //setting the background colors based on current hour
     if (hourArr[i] < currentHour) {
       eventEl.addClass('past');
     } else if (hourArr[i] === currentHour) {
@@ -72,6 +98,15 @@ function chartInit() {
         .addClass('description col-8 present');
     } else {
       $('#9 ').removeAttr('class', 'future').addClass('description col-8 past');
+    }
+
+    // setting value of input based on local storage
+    if (eventEl.attr('id') in localStorage) {
+      eventEl.val(localStorage.getItem(eventEl.attr('id')));
+      console.log('yes');
+      console.log(localStorage.getItem(eventEl.attr('id')));
+    } else {
+      console.log('no');
     }
 
     newRowEl.append(timeEl);
